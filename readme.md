@@ -88,3 +88,6 @@
 **HomeSync** bridges creativity and tech to help users design and shop their dream home. With real-world integrations, smart tools, and a seamless UX—HomeSync is where home inspiration becomes reality.
 
 
+
+## Backend Deployment Link 
+https://s63-nidhi-capstone-homesync-1.onrender.com
