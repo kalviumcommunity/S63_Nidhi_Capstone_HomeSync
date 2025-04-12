@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+
+git checkout -b newbranch
+git add .
+git commit -m "message"
+git push origin newbranch
+Compare and pull req
+merge
+back to local repo
+git checkout main
+git pull origin main
