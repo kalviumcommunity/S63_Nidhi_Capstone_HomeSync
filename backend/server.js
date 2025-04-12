@@ -14,9 +14,57 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected successfully'))
   .catch((err) => console.error('❌ MongoDB connection failed:', err));
 
+// ✅ Importing Mongoose models
+const User = require('./models/User');
+const Item = require('./models/Item');
+
 // Sample GET route
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.send('🌐 API is running...');
+});
+
+// ✅ Sample routes to test DB interaction
+
+// Create a user
+app.post('/api/users', async (req, res) => {
+  try {
+    const user = new User(req.body);
+    const savedUser = await user.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Get all users
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create an item
+app.post('/api/items', async (req, res) => {
+  try {
+    const item = new Item(req.body);
+    const savedItem = await item.save();
+    res.status(201).json(savedItem);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Get all items
+app.get('/api/items', async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Server listening
