@@ -5,6 +5,8 @@
 ### Features
 ## ✨ Key Features
 
+
+
 1. 🖼️ **Room Visualization** – Upload images, drag & drop furniture, preview styles  
 2. 🛒 **Wishlist & Purchase Tracking** – Save items, mark as purchased, sync with major stores  
 3. 👤 **User Profiles** – Google Sign-In, personalized dashboard, saved uploads  
