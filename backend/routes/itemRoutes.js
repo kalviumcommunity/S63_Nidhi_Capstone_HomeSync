@@ -22,5 +22,21 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// PUT endpoint to update an item by ID
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedItem = await Item.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedItem) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
