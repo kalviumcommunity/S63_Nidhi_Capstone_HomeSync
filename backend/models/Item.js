@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const itemSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  image: String,
-  price: Number,
-  description: String,
-}, { timestamps: true });
+const itemSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    image: String,
+    price: Number,
+    description: String,
 
-const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+    // Optional: reference to the user who added/owns this item
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  },
+  { timestamps: true }
+);
+
+export const Item = mongoose.model('Item', itemSchema);
