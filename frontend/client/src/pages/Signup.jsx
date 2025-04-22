@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import '../styles/Signup.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +10,8 @@ const Signup = () => {
     password: '',
     confirmPassword: ''
   });
+  
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,10 +21,33 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement signup logic
-    console.log('Form submitted:', formData);
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 6) {
+      alert('Password must be at least 6 characters long!');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      });
+
+      alert('Registration successful! Please login to continue.');
+      navigate('/login');
+    } catch (error) {
+      alert(error.response?.data?.message || 'Registration failed. Please try again.');
+    }
   };
 
   const clearField = (fieldName) => {
@@ -31,33 +58,30 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="w-[350px]">
-        {/* Form Container */}
-        <div className="bg-[#e6e6e6] rounded-[40px] p-8 flex flex-col items-center">
-          {/* Header */}
-          <h2 className="text-xl font-bold mb-6 text-center">Sign Up:</h2>
+    <div className="signup-container">
+      <div className="signup-form-wrapper">
+        <div className="signup-form-container">
+          <h2 className="signup-header">Sign Up:</h2>
           
-          <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-[250px]">
-            {/* Name Field */}
-            <div className="mb-6 flex flex-col items-center">
-              <label className="block font-medium text-black mb-1 w-full text-center">
+          <form onSubmit={handleSubmit} className="signup-form">
+            <div className="form-group">
+              <label className="form-label">
                 Name:
               </label>
-              <div className="relative w-full">
+              <div className="input-container">
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  className="w-full h-8 px-4 rounded-full bg-white focus:outline-none text-left placeholder:text-center text-sm"
+                  className="form-input"
                 />
                 {formData.name && (
                   <button
                     type="button"
                     onClick={() => clearField('name')}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                    className="clear-button"
                   >
                     ×
                   </button>
@@ -65,25 +89,24 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Email Field */}
-            <div className="mb-6 flex flex-col items-center">
-              <label className="block font-medium text-black mb-1 w-full text-center">
+            <div className="form-group">
+              <label className="form-label">
                 Email:
               </label>
-              <div className="relative w-full">
+              <div className="input-container">
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your email"
-                  className="w-full h-8 px-4 rounded-full bg-white focus:outline-none text-left placeholder:text-center text-sm"
+                  className="form-input"
                 />
                 {formData.email && (
                   <button
                     type="button"
                     onClick={() => clearField('email')}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                    className="clear-button"
                   >
                     ×
                   </button>
@@ -91,25 +114,24 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Password Field */}
-            <div className="mb-6 flex flex-col items-center">
-              <label className="block font-medium text-black mb-1 w-full text-center">
+            <div className="form-group">
+              <label className="form-label">
                 Password:
               </label>
-              <div className="relative w-full">
+              <div className="input-container">
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full h-8 px-4 rounded-full bg-white focus:outline-none text-left placeholder:text-center text-sm"
+                  className="form-input"
                 />
                 {formData.password && (
                   <button
                     type="button"
                     onClick={() => clearField('password')}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                    className="clear-button"
                   >
                     ×
                   </button>
@@ -117,25 +139,24 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Confirm Password Field */}
-            <div className="mb-8 flex flex-col items-center">
-              <label className="block font-medium text-black mb-1 w-full text-center">
+            <div className="form-group">
+              <label className="form-label">
                 Confirm Password:
               </label>
-              <div className="relative w-full">
+              <div className="input-container">
                 <input
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full h-8 px-4 rounded-full bg-white focus:outline-none text-left placeholder:text-center text-sm"
+                  className="form-input"
                 />
                 {formData.confirmPassword && (
                   <button
                     type="button"
                     onClick={() => clearField('confirmPassword')}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+                    className="clear-button"
                   >
                     ×
                   </button>
@@ -143,27 +164,24 @@ const Signup = () => {
               </div>
             </div>
 
-            <div className="flex flex-col items-center space-y-4">
-              {/* Sign up with Google */}
+            <div className="actions-container">
               <button 
                 type="button"
-                className="text-sm text-black"
+                className="google-button"
               >
                 Sign up with google
               </button>
 
-              {/* Sign In Button */}
               <button
                 type="submit"
-                className="bg-[#c4c4c4] text-black font-medium py-1 px-4 rounded-full hover:bg-[#b4b4b4] transition-colors text-sm"
+                className="submit-button"
               >
                 Sign in
               </button>
 
-              {/* Login Link */}
-              <div className="mt-2 text-center">
-                <span className="text-sm text-black">
-                  Already a user? <Link to="/login" className="hover:underline text-blue-600">Login</Link>
+              <div className="login-link">
+                <span>
+                  Already a user? <Link to="/login">Login</Link>
                 </span>
               </div>
             </div>
