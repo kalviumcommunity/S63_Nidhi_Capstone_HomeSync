@@ -1,8 +1,14 @@
+
 const express = require('express');
 const { User } = require('../models/User.js');
 const { Item } = require('../models/Item.js');
+const { getProfile } = require('../controllers/authController');
+const protect = require('../middleware/authMiddleware');
+
 
 const router = express.Router();
+
+
 
 // ✅ CREATE (POST): Create a new user
 router.post('/', async (req, res) => {
@@ -36,7 +42,7 @@ router.get('/', async (req, res) => {
 });
 
 // ✅ READ (GET): Fetch user by ID with wishlist and purchases populated
-router.get('/:id', async (req, res) => {
+router.get('/:id', protect, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .populate('wishlist')
@@ -53,7 +59,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // ✅ UPDATE (PUT): Update user by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,

@@ -1,30 +1,32 @@
 // routes/auth.js
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-
-const users = []; // temporary in-memory storage
+const { loginUser } = require('../controllers/authController');
+const User = require('../models/User');
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-  const { username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const { name, email, password } = req.body;
 
-  users.push({ username, password: hashedPassword });
-  res.status(201).json({ message: 'User registered successfully' });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Create new user
+    const newUser = new User({ name, email, password });
+    await newUser.save();
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to register user', error: error.message });
+  }
 });
 
 // Login Route
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = users.find(u => u.username === username);
+router.post('/register', authController.registerUser);
 
-  if (!user) return res.status(400).json({ message: 'User not found' });
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
-
-  res.status(200).json({ message: 'Login successful' });
-});
 
 module.exports = router;

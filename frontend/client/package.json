@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.5",
     "axios": "^1.8.4",
+    "framer-motion": "^12.7.4",
     "lucide-react": "^0.330.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
