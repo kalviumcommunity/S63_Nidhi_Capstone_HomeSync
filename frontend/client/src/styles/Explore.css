@@ -1,0 +1,122 @@
+.explore-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/src/assets/ExploreMore.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  
+  .explore-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.3)
+    );
+    z-index: 1;
+  }
+  
+  .explore-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 70px; /* Account for navbar */
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .explore-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .explore-description {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .explore-button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #333333;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+  }
+  
+  .explore-button:hover {
+    background-color: transparent;
+    color: #ffffff;
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .explore-title {
+      font-size: 3rem;
+    }
+  
+    .explore-description {
+      font-size: 1.25rem;
+    }
+  
+    .explore-button {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .explore-title {
+      font-size: 2.5rem;
+    }
+  
+    .explore-description {
+      font-size: 1.1rem;
+    }
+  
+    .explore-content {
+      padding: 1.5rem;
+    }
+  } 

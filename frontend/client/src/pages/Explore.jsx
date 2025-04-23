@@ -1,15 +1,21 @@
 import React from 'react';
-import FeatureSection from '../components/FeatureSection';
+import { Link } from 'react-router-dom';
+import '../styles/Explore.css';
 
 const Explore = () => {
   return (
-    <FeatureSection
-      title="Transform Your Living Space with HomeSync"
-      description="Elevate your decor with curated styles, live previews, and seamless shopping from top retailers."
-      buttonText="Explore More"
-      buttonLink="/explore"
-      imageUrl="/src/assets/ExploreMore.png"
-    />
+    <div className="explore-container">
+      <div className="explore-content">
+        <h1 className="explore-title">Transform Your Living Space</h1>
+        <p className="explore-description">
+          Discover beautiful home designs and create your dream space with our intuitive design tools.
+          Start your journey to the perfect home today.
+        </p>
+        <Link to="/signup" className="explore-button">
+          Let's Explore
+        </Link>
+      </div>
+    </div>
   );
 };
 

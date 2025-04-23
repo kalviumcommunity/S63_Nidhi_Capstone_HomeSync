@@ -1,0 +1,724 @@
+.about-container {
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 2rem;
+    animation: fadeInDown 1s ease-out;
+  }
+  
+  .about-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #2d3748, #4a5568);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .about-subtitle {
+    font-size: 1.25rem;
+    color: #4a5568;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    font-weight: 500;
+  }
+  
+  .about-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .about-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 1s ease-out;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #4299e1, #667eea);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+  
+  .about-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .about-card:hover::before {
+    opacity: 0.1;
+  }
+  
+  .about-card:hover .card-title {
+    color: #4299e1;
+    transform: translateX(5px);
+  }
+  
+  .about-card:hover .card-icon {
+    transform: scale(1.2) rotate(5deg);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .card-icon {
+    font-size: 1.75rem;
+    color: #4299e1;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .card-description {
+    color: #4a5568;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .about-card:hover .card-description {
+    transform: translateX(5px);
+  }
+  
+  /* Add a shine effect that only happens once on hover */
+  .about-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+  
+  .about-card:hover::after {
+    opacity: 1;
+    animation: shine 1.5s forwards;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(45deg);
+    }
+  }
+  
+  /* Add a subtle border animation */
+  .about-card {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  
+  .about-card:hover {
+    border: 2px solid #4299e1;
+    background-clip: padding-box;
+  }
+  
+  /* Remove all continuous animations */
+  .about-card {
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  /* Add a single movement animation on hover */
+  @keyframes hoverMove {
+    0% {
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      transform: translateY(-10px) scale(1.02);
+    }
+  }
+  
+  .about-card:hover {
+    animation: hoverMove 0.4s forwards;
+  }
+  
+  .about-team {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .team-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 2rem;
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .team-member {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .team-member:hover {
+    transform: translateY(-5px);
+  }
+  
+  .member-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    object-fit: cover;
+    border: 4px solid #4299e1;
+  }
+  
+  .member-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+  }
+  
+  .member-role {
+    color: #4299e1;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  
+  .member-bio {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Features Section */
+  .features-section {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, #2d3748, #4a5568);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInDown 1s ease-out;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #4299e1, #667eea);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .feature-card:hover::before {
+    opacity: 0.1;
+  }
+  
+  .feature-card:hover .feature-title {
+    color: #4299e1;
+    transform: translateX(5px);
+  }
+  
+  .feature-card:hover .feature-description {
+    transform: translateX(5px);
+  }
+  
+  .feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .feature-description {
+    color: #4a5568;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Add shine effect to feature cards */
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+  
+  .feature-card:hover::after {
+    opacity: 1;
+    animation: shine 1.5s forwards;
+  }
+  
+  /* Benefits Section */
+  .benefits-section {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .benefit-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #4299e1, #667eea);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+  
+  .benefit-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .benefit-card:hover::before {
+    opacity: 0.1;
+  }
+  
+  .benefit-card:hover .benefit-title {
+    color: #4299e1;
+    transform: translateX(5px);
+  }
+  
+  .benefit-card:hover .benefit-description {
+    transform: translateX(5px);
+  }
+  
+  .benefit-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .benefit-description {
+    color: #4a5568;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Add shine effect to benefit cards */
+  .benefit-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+  
+  .benefit-card:hover::after {
+    opacity: 1;
+    animation: shine 1.5s forwards;
+  }
+  
+  /* Add border animation to both feature and benefit cards */
+  .feature-card,
+  .benefit-card {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  
+  .feature-card:hover,
+  .benefit-card:hover {
+    border: 2px solid #4299e1;
+    background-clip: padding-box;
+  }
+  
+  /* Add a single movement animation on hover */
+  @keyframes hoverMove {
+    0% {
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      transform: translateY(-10px) scale(1.02);
+    }
+  }
+  
+  .feature-card:hover,
+  .benefit-card:hover {
+    animation: hoverMove 0.4s forwards;
+  }
+  
+  /* Vision Card */
+  .about-card:nth-child(1)::before {
+    background: linear-gradient(45deg, #4299e1, #667eea);
+  }
+  
+  .about-card:nth-child(1):hover {
+    border-color: #4299e1;
+  }
+  
+  .about-card:nth-child(1):hover .card-title {
+    color: #4299e1;
+  }
+  
+  /* Design Tools Card */
+  .about-card:nth-child(2)::before {
+    background: linear-gradient(45deg, #48bb78, #38a169);
+  }
+  
+  .about-card:nth-child(2):hover {
+    border-color: #48bb78;
+  }
+  
+  .about-card:nth-child(2):hover .card-title {
+    color: #48bb78;
+  }
+  
+  /* Technology Card */
+  .about-card:nth-child(3)::before {
+    background: linear-gradient(45deg, #ed8936, #dd6b20);
+  }
+  
+  .about-card:nth-child(3):hover {
+    border-color: #ed8936;
+  }
+  
+  .about-card:nth-child(3):hover .card-title {
+    color: #ed8936;
+  }
+  
+  /* Feature Cards */
+  /* Real-time 3D Preview */
+  .feature-card:nth-child(1)::before {
+    background: linear-gradient(45deg, #9f7aea, #805ad5);
+  }
+  
+  .feature-card:nth-child(1):hover {
+    border-color: #9f7aea;
+  }
+  
+  .feature-card:nth-child(1):hover .feature-title {
+    color: #9f7aea;
+  }
+  
+  /* Smart Recommendations */
+  .feature-card:nth-child(2)::before {
+    background: linear-gradient(45deg, #f6ad55, #ed8936);
+  }
+  
+  .feature-card:nth-child(2):hover {
+    border-color: #f6ad55;
+  }
+  
+  .feature-card:nth-child(2):hover .feature-title {
+    color: #f6ad55;
+  }
+  
+  /* Virtual Room Tours */
+  .feature-card:nth-child(3)::before {
+    background: linear-gradient(45deg, #f687b3, #eb5286);
+  }
+  
+  .feature-card:nth-child(3):hover {
+    border-color: #f687b3;
+  }
+  
+  .feature-card:nth-child(3):hover .feature-title {
+    color: #f687b3;
+  }
+  
+  /* Benefit Cards */
+  /* Save Time & Money */
+  .benefit-card:nth-child(1)::before {
+    background: linear-gradient(45deg, #4fd1c5, #38b2ac);
+  }
+  
+  .benefit-card:nth-child(1):hover {
+    border-color: #4fd1c5;
+  }
+  
+  .benefit-card:nth-child(1):hover .benefit-title {
+    color: #4fd1c5;
+  }
+  
+  /* Endless Possibilities */
+  .benefit-card:nth-child(2)::before {
+    background: linear-gradient(45deg, #f472b6, #db2777);
+  }
+  
+  .benefit-card:nth-child(2):hover {
+    border-color: #f472b6;
+  }
+  
+  .benefit-card:nth-child(2):hover .benefit-title {
+    color: #f472b6;
+  }
+  
+  /* Professional Results */
+  .benefit-card:nth-child(3)::before {
+    background: linear-gradient(45deg, #63b3ed, #4299e1);
+  }
+  
+  .benefit-card:nth-child(3):hover {
+    border-color: #63b3ed;
+  }
+  
+  .benefit-card:nth-child(3):hover .benefit-title {
+    color: #63b3ed;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .about-title {
+      font-size: 2.5rem;
+    }
+  
+    .about-subtitle {
+      font-size: 1.1rem;
+    }
+  
+    .section-title {
+      font-size: 2rem;
+    }
+  
+    .about-content,
+    .features-grid,
+    .benefits-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .about-container {
+      padding: 1rem;
+    }
+  
+    .about-title {
+      font-size: 2rem;
+    }
+  
+    .section-title {
+      font-size: 1.75rem;
+    }
+  }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Vision Card */
+  .about-card:nth-child(1) .card-title {
+    color: #4299e1;
+  }
+  
+  /* Design Tools Card */
+  .about-card:nth-child(2) .card-title {
+    color: #48bb78;
+  }
+  
+  /* Technology Card */
+  .about-card:nth-child(3) .card-title {
+    color: #ed8936;
+  }
+  
+  /* Feature Cards */
+  /* Real-time 3D Preview */
+  .feature-card:nth-child(1) .feature-title {
+    color: #9f7aea;
+  }
+  
+  /* Smart Recommendations */
+  .feature-card:nth-child(2) .feature-title {
+    color: #f6ad55;
+  }
+  
+  /* Virtual Room Tours */
+  .feature-card:nth-child(3) .feature-title {
+    color: #f687b3;
+  }
+  
+  /* Benefit Cards */
+  /* Save Time & Money */
+  .benefit-card:nth-child(1) .benefit-title {
+    color: #4fd1c5;
+  }
+  
+  /* Endless Possibilities */
+  .benefit-card:nth-child(2) .benefit-title {
+    color: #f472b6;
+  }
+  
+  /* Professional Results */
+  .benefit-card:nth-child(3) .benefit-title {
+    color: #63b3ed;
+  } 

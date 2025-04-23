@@ -19,7 +19,7 @@ const Home = () => {
           <p className="section-description">
             Unlock HomeSync's potential with features like drag-and-drop editing and e-commerce integration to transform your room.
           </p>
-          <Link to="/discover" className="section-button">
+          <Link to="/signup" className="section-button">
             Discover More
           </Link>
         </div>
@@ -35,7 +35,7 @@ const Home = () => {
           <p className="section-description">
             Simplify your design process with our platform, offering drag-and-drop tools and e-commerce integrations.
           </p>
-          <Link to="/editor" className="section-button">
+          <Link to="/signup" className="section-button">
             Start Designing
           </Link>
         </div>
