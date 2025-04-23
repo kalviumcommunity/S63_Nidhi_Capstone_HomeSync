@@ -7,7 +7,7 @@ const Editor = () => {
       title="HomeSync and Interior Design"
       description="Simplify your design process with our platform, offering drag-and-drop tools and e-commerce integrations."
       buttonText="Start Designing"
-      buttonLink="/editor"
+      buttonLink="/signup"
       imageUrl="/src/assets/StartDesigning.png"
     />
   );

@@ -31,11 +31,11 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', formData);
       alert('Login successful! Welcome back!');
-      // You might want to store the token in localStorage here if your backend sends one
-      // localStorage.setItem('token', res.data.token);
+      // Store the token in localStorage
+      localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     }
   };
 

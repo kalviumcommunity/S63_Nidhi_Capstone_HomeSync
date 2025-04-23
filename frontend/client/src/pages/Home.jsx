@@ -1,41 +1,78 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import HeroSection from '../components/HeroSection';
-import FeatureSection from '../components/FeatureSection';
 import Footer from '../components/Footer';
+import '../styles/Home.css';
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
+    <div className="home-container">
       <Navbar />
-      <HeroSection
-        title="Design Your Dream Space Effortlessly"
-        description="Unlock HomeSync's potential with features like drag-and-drop editing and e-commerce integration to transform your room."
-        buttonText="Discover More"
-        buttonLink="/discover"
-        imageUrl="/src/assets/DiscoverMore.png" // Replace with your actual PNG file name
-      />
-      <FeatureSection
-        title="HomeSync and Interior Design"
-        description="Simplify your design process with our platform, offering drag-and-drop tools and e-commerce integrations."
-        buttonText="Start Designing"
-        buttonLink="/editor"
-        imageUrl="/src/assets/StartDesigning.png" // Replace with your actual PNG file name
-      />
-      <FeatureSection
-        title="Transform Your Living Space with HomeSync"
-        description="Elevate your decor with curated styles, live previews, and seamless shopping from top retailers."
-        buttonText="Explore More"
-        buttonLink="/explore"
-        imageUrl="/src/assets/ExploreMore.png" // Replace with your actual PNG file name
-      />
-      <FeatureSection
-        title="Enhance Your Design Experience with HomeSync"
-        description="Discover how HomeSync streamlines your design process with innovative tools and real-time updates."
-        buttonText="View Details"
-        buttonLink="/view"
-        imageUrl="/src/assets/ViewDetails.png" // Replace with your actual PNG file name
-      />
+      
+      {/* Hero Section */}
+      <section
+        className="section"
+        style={{ backgroundImage: `url(/src/assets/DiscoverMore.png)` }}
+      >
+        <div className="section-content">
+          <h2 className="section-title">Design Your Dream Space Effortlessly</h2>
+          <p className="section-description">
+            Unlock HomeSync's potential with features like drag-and-drop editing and e-commerce integration to transform your room.
+          </p>
+          <Link to="/discover" className="section-button">
+            Discover More
+          </Link>
+        </div>
+      </section>
+
+      {/* Interior Design Section */}
+      <section
+        className="section"
+        style={{ backgroundImage: `url(/src/assets/StartDesigning.png)` }}
+      >
+        <div className="section-content">
+          <h2 className="section-title">HomeSync and Interior Design</h2>
+          <p className="section-description">
+            Simplify your design process with our platform, offering drag-and-drop tools and e-commerce integrations.
+          </p>
+          <Link to="/editor" className="section-button">
+            Start Designing
+          </Link>
+        </div>
+      </section>
+
+      {/* Living Space Section */}
+      <section
+        className="section"
+        style={{ backgroundImage: `url(/src/assets/ExploreMore.png)` }}
+      >
+        <div className="section-content">
+          <h2 className="section-title">Transform Your Living Space with HomeSync</h2>
+          <p className="section-description">
+            Elevate your decor with curated styles, live previews, and seamless shopping from top retailers.
+          </p>
+          <Link to="/explore" className="section-button">
+            Explore More
+          </Link>
+        </div>
+      </section>
+
+      {/* Design Experience Section */}
+      <section
+        className="section"
+        style={{ backgroundImage: `url(/src/assets/ViewDetails.png)` }}
+      >
+        <div className="section-content">
+          <h2 className="section-title">Enhance Your Design Experience with HomeSync</h2>
+          <p className="section-description">
+            Discover how HomeSync streamlines your design process with innovative tools and real-time updates.
+          </p>
+          <Link to="/view" className="section-button">
+            View Details
+          </Link>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
