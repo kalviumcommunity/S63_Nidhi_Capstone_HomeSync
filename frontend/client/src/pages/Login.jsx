@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import '../styles/Login.css';
 // import logo from '../assets/logo.png'; // Use your logo path here
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = e => {
@@ -19,6 +20,10 @@ const Login = () => {
     setError('');
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     
@@ -29,13 +34,12 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-      alert('Login successful! Welcome back!');
-      // Store the token in localStorage
-      localStorage.setItem('token', res.data.token);
+      const response = await api.post('/api/auth/login', formData);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.response?.data?.message || 'An error occurred during login');
     }
   };
 
@@ -87,7 +91,7 @@ const Login = () => {
               </label>
               <div className="input-container">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
@@ -95,15 +99,13 @@ const Login = () => {
                   className="form-input"
                   required
                 />
-                {formData.password && (
-                  <button
-                    type="button"
-                    onClick={() => handleClear('password')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="password-toggle"
+                >
+                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                </button>
               </div>
             </div>
 

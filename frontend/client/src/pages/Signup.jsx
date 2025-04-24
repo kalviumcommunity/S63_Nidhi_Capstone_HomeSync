@@ -1,24 +1,34 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import '../styles/Signup.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
   
   const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -26,27 +36,28 @@ const Signup = () => {
     
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      setError('Passwords do not match');
       return;
     }
 
     // Validate password length
     if (formData.password.length < 6) {
-      alert('Password must be at least 6 characters long!');
+      setError('Password must be at least 6 characters long!');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', {
-        name: formData.name,
+      const response = await api.post('/api/auth/signup', {
+        username: formData.username,
         email: formData.email,
         password: formData.password
       });
 
-      alert('Registration successful! Please login to continue.');
-      navigate('/login');
-    } catch (error) {
-      alert(error.response?.data?.message || 'Registration failed. Please try again.');
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred during signup');
     }
   };
 
@@ -63,6 +74,8 @@ const Signup = () => {
         <div className="signup-form-container">
           <h2 className="signup-header">Sign Up:</h2>
           
+          {error && <div className="error-message">{error}</div>}
+          
           <form onSubmit={handleSubmit} className="signup-form">
             <div className="form-group">
               <label className="form-label">
@@ -71,16 +84,16 @@ const Signup = () => {
               <div className="input-container">
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
                   placeholder="Enter your name"
                   className="form-input"
                 />
-                {formData.name && (
+                {formData.username && (
                   <button
                     type="button"
-                    onClick={() => clearField('name')}
+                    onClick={() => clearField('username')}
                     className="clear-button"
                   >
                     ×
@@ -120,13 +133,20 @@ const Signup = () => {
               </label>
               <div className="input-container">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
                   className="form-input"
                 />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('password')}
+                  className="password-toggle"
+                >
+                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                </button>
                 {formData.password && (
                   <button
                     type="button"
@@ -145,13 +165,20 @@ const Signup = () => {
               </label>
               <div className="input-container">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Enter your password"
                   className="form-input"
                 />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('confirm')}
+                  className="password-toggle"
+                >
+                  {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+                </button>
                 {formData.confirmPassword && (
                   <button
                     type="button"
