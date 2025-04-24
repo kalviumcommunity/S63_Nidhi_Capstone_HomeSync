@@ -4,15 +4,21 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/Home.css';
 
+// Import images
+import discoverMoreImage from '../assets/DiscoverMore.png';
+import startDesigningImage from '../assets/StartDesigning.png';
+import exploreMoreImage from '../assets/ExploreMore.png';
+import viewDetailsImage from '../assets/ViewDetails.png';
+
 const Home = () => {
   return (
     <div className="home-container">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section
         className="section"
-        style={{ backgroundImage: `url(/src/assets/DiscoverMore.png)` }}
+        style={{ backgroundImage: `url(${discoverMoreImage})` }}
       >
         <div className="section-content">
           <h2 className="section-title">Design Your Dream Space Effortlessly</h2>
@@ -28,7 +34,7 @@ const Home = () => {
       {/* Interior Design Section */}
       <section
         className="section"
-        style={{ backgroundImage: `url(/src/assets/StartDesigning.png)` }}
+        style={{ backgroundImage: `url(${startDesigningImage})` }}
       >
         <div className="section-content">
           <h2 className="section-title">HomeSync and Interior Design</h2>
@@ -44,7 +50,7 @@ const Home = () => {
       {/* Living Space Section */}
       <section
         className="section"
-        style={{ backgroundImage: `url(/src/assets/ExploreMore.png)` }}
+        style={{ backgroundImage: `url(${exploreMoreImage})` }}
       >
         <div className="section-content">
           <h2 className="section-title">Transform Your Living Space with HomeSync</h2>
@@ -60,7 +66,7 @@ const Home = () => {
       {/* Design Experience Section */}
       <section
         className="section"
-        style={{ backgroundImage: `url(/src/assets/ViewDetails.png)` }}
+        style={{ backgroundImage: `url(${viewDetailsImage})` }}
       >
         <div className="section-content">
           <h2 className="section-title">Enhance Your Design Experience with HomeSync</h2>
