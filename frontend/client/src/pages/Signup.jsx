@@ -145,7 +145,7 @@ const Signup = () => {
                   onClick={() => togglePasswordVisibility('password')}
                   className="password-toggle"
                 >
-                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                  {showPassword ? "👁" : "👁‍🗨"}
                 </button>
                 {formData.password && (
                   <button
@@ -177,7 +177,7 @@ const Signup = () => {
                   onClick={() => togglePasswordVisibility('confirm')}
                   className="password-toggle"
                 >
-                  {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+                  {showConfirmPassword ? "👁" : "👁‍🗨"}
                 </button>
                 {formData.confirmPassword && (
                   <button

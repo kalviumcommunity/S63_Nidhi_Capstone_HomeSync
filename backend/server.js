@@ -3,9 +3,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-const itemRoutes = require('./routes/itemRoutes');
+// const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/auth');
 
 dotenv.config();
 
@@ -19,12 +19,11 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 
-
 // Middleware
 app.use(express.json());
 
 // MongoDB Connection with better error handling
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/homesync';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://nidhind544:nidhi123@homecluster0.5mvwjig.mongodb.net/';
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -38,7 +37,7 @@ mongoose.connect(MONGODB_URI, {
   });
 
 // Routes
-app.use('/api/items', itemRoutes);
+// app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
