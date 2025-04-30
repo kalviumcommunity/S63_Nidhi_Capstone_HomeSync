@@ -3,9 +3,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-// const itemRoutes = require('./routes/itemRoutes');
+const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/auth');
+const uploadRoutes = require('./routes/uploadRoutes');
+
 
 dotenv.config();
 
@@ -31,8 +33,6 @@ mongoose.connect(MONGODB_URI, {
   .then(() => console.log('✅ MongoDB connected successfully'))
   .catch((err) => {
     console.error('❌ MongoDB connection failed:', err);
-    console.log('Please make sure MongoDB is installed and running on your machine');
-    console.log('You can download MongoDB from: https://www.mongodb.com/try/download/community');
     process.exit(1);
   });
 
@@ -40,6 +40,7 @@ mongoose.connect(MONGODB_URI, {
 // app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
