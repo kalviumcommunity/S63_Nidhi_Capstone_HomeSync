@@ -3,10 +3,18 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
   try {
+    console.log('Signup request body:', req.body);
     const { username, email, password } = req.body;
+
+    // Validate required fields
+    if (!username || !email || !password) {
+      console.log('Validation failed: Missing fields');
+      return res.status(400).json({ message: 'Username, email, and password are required' });
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    console.log('Existing user check:', existingUser);
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -17,10 +25,19 @@ const signup = async (req, res) => {
       email,
       password
     });
+    console.log('New user created:', user);
 
     await user.save();
+    console.log('User saved to database');
+
+    // Check if JWT_SECRET is defined
+    if (!process.env.JWT_SECRET) {
+      console.log('JWT_SECRET is not defined');
+      return res.status(500).json({ message: 'JWT_SECRET environment variable is not defined' });
+    }
 
     // Generate JWT token
+    console.log('Generating JWT token');
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -37,7 +54,11 @@ const signup = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating user', error: error.message });
+    console.error('Signup error:', error);
+    res.status(500).json({ 
+      message: 'Error creating user', 
+      error: process.env.NODE_ENV === 'development' ? error.stack : error.message 
+    });
   }
 };
 
@@ -61,7 +82,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: '7d' }
     );
 
     res.json({
