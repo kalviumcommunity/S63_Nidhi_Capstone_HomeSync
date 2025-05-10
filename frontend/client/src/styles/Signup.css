@@ -149,3 +149,49 @@
   color: #0284c7;
   text-decoration: underline;
 }
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider span {
+  padding: 0 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Google Sign-In button container */
+.google-signin-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  min-height: 40px; /* Ensure container has height even before button loads */
+}
+
+#googleSignIn {
+  width: 100% !important;
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+#googleSignIn > div {
+  width: 100% !important;
+}
+
+/* Ensure the Google button is properly sized */
+#googleSignIn iframe {
+  width: 100% !important;
+  height: 40px !important;
+}

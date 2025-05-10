@@ -2,12 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const googleConfig = require('./config/googleConfig');
 
 const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/uploadRoutes');
-
+const googleAuthRoutes = require('./routes/googleAuth');
 
 dotenv.config();
 
@@ -23,6 +26,10 @@ app.use(cors({
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
+
+// Session middleware
+app.use(session(googleConfig.session));
 
 // MongoDB Connection with better error handling
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://nidhind544:nidhi123@homecluster0.5mvwjig.mongodb.net/';
@@ -41,6 +48,7 @@ mongoose.connect(MONGODB_URI, {
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api', googleAuthRoutes);
 
 // Health check route
 app.get('/', (req, res) => {

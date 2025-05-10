@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import GoogleSignIn from '../components/GoogleSignIn';
 import '../styles/Login.css';
 // import logo from '../assets/logo.png'; // Use your logo path here
 
@@ -110,21 +111,18 @@ const Login = () => {
             </div>
 
             <div className="actions-container">
-              {/* Sign in with Google */}
-              <button 
-                type="button"
-                className="google-button"
-              >
-                Sign in with google
-              </button>
-
-              {/* Login Button */}
               <button
                 type="submit"
                 className="submit-button"
               >
                 Login
               </button>
+
+              <div className="divider">
+                <span>OR</span>
+              </div>
+
+              <GoogleSignIn />
 
               {/* Forgot Password Link */}
               <div className="forgot-password">

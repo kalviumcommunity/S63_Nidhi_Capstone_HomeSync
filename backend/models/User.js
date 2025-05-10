@@ -18,13 +18,27 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.googleId; // Password is required only if not using Google auth
+    },
     minlength: 6
   },
   googleId: {
     type: String,
     unique: true,
-    sparse: true // ✅ Allows multiple nulls
+    sparse: true
+  },
+  profileImage: {
+    type: String,
+    default: null
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now
   },
   createdAt: {
     type: Date,
@@ -47,7 +61,14 @@ userSchema.pre('save', async function(next) {
 
 // Method to compare password
 userSchema.methods.comparePassword = async function(candidatePassword) {
+  if (!this.password) return false; // If no password (Google auth), return false
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+// Method to update last login
+userSchema.methods.updateLastLogin = async function() {
+  this.lastLogin = Date.now();
+  await this.save();
 };
 
 const User = mongoose.model('User', userSchema);
