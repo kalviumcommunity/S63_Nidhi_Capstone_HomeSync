@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import RoomDesigner from './features/RoomDesigner/RoomDesigner';
+import ProductDetailPage from './pages/ProductDetailPage';
+import WishlistPage from './pages/WishlistPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import "./App.css";
 
@@ -27,6 +30,23 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/room-designer"
+            element={
+              <ProtectedRoute>
+                <RoomDesigner />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <ProtectedRoute>
+                <WishlistPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/product/:productId" element={<ProductDetailPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/editor" element={<Editor />} />
@@ -37,6 +57,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;

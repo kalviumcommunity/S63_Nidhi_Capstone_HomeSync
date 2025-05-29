@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Login.css';
 // import logo from '../assets/logo.png'; // Use your logo path here
 
@@ -9,6 +10,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = e => {
     setError(''); // Clear error when user types
@@ -35,9 +37,10 @@ const Login = () => {
 
     try {
       const response = await api.post('/api/auth/login', formData);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate('/dashboard');
+      // Use the login function from AuthContext
+      login(response.data.user, response.data.token);
+      // Navigate to room-designer instead of dashboard
+      navigate('/room-designer');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred during login');
     }

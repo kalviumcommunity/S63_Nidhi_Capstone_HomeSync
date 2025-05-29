@@ -7,6 +7,7 @@ const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/uploadRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
 
 
 dotenv.config();
@@ -41,6 +42,7 @@ mongoose.connect(MONGODB_URI, {
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // Health check route
 app.get('/', (req, res) => {

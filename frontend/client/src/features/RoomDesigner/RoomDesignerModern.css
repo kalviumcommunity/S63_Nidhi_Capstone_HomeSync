@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --primary-bg: #f7fafc;
+  --sidebar-bg: #17404d;
+  --accent: #4fd1c5;
+  --accent-dark: #319795;
+  --card-bg: #fff;
+  --shadow: 0 4px 24px rgba(23, 64, 77, 0.08);
+  --radius: 18px;
+  --text-main: #222;
+  --text-light: #fff;
+  --muted: #a0aec0;
+  --transition: 0.25s cubic-bezier(.4,0,.2,1);
+}
+
+body, html {
+  font-family: 'Poppins', sans-serif;
+  background: var(--primary-bg);
+  color: var(--text-main);
+}
+
+.room-designer-root {
+  display: flex;
+  min-height: 100vh;
+  background: var(--primary-bg);
+}
+
+.sidebar-modern {
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  width: 260px;
+  min-width: 220px;
+  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+  border-radius: var(--radius);
+  margin: 1.5rem 0 1.5rem 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: box-shadow var(--transition);
+}
+
+.sidebar-modern h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-modern ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-modern li {
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+  font-size: 1.08rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.sidebar-modern li:hover, .sidebar-modern li.active {
+  background: var(--accent);
+  color: var(--sidebar-bg);
+  transform: translateX(6px) scale(1.04);
+}
+
+.room-canvas-modern {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2.5rem 2rem 2rem 2rem;
+}
+
+.canvas-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  width: 700px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow var(--transition), transform var(--transition);
+  position: relative;
+}
+
+.canvas-card img, .canvas-card .konvajs-content {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(23, 64, 77, 0.10);
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  background: #e6f7fa;
+}
+
+.canvas-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin: 1.5rem 0 0.5rem 0;
+  justify-content: center;
+}
+
+.canvas-actions button {
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.7rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(79, 209, 197, 0.08);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.canvas-actions button:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(49, 151, 149, 0.13);
+}
+
+.catalog-modern {
+  margin-top: 2rem;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.5rem;
+  width: 320px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: box-shadow var(--transition);
+}
+
+.catalog-modern h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: var(--accent-dark);
+}
+
+.catalog-modern ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.catalog-modern li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: #f1f9fa;
+  transition: background var(--transition), transform var(--transition);
+  cursor: grab;
+  box-shadow: 0 1px 4px rgba(23, 64, 77, 0.04);
+}
+
+.catalog-modern li:hover {
+  background: var(--accent);
+  color: var(--sidebar-bg);
+  transform: scale(1.03);
+}
+
+.catalog-modern img {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  margin-right: 10px;
+  background: #e6f7fa;
+}
+
+.catalog-modern .wishlist-section {
+  margin-top: 1.5rem;
+  background: #e6f7fa;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(23, 64, 77, 0.06);
+  animation: fadeIn 0.5s;
+}
+
+.catalog-modern .wishlist-section h4 {
+  color: var(--accent-dark);
+}
+
+.catalog-modern .wishlist-section li {
+  background: #fff;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.catalog-modern .wishlist-section li:hover {
+  background: var(--accent);
+  color: var(--sidebar-bg);
+  transform: scale(1.03);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Controls Panel */
+.controls-modern {
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 1.5rem;
+  width: 320px;
+  min-width: 220px;
+  margin: 1.5rem 1.5rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  transition: box-shadow var(--transition);
+}
+
+.controls-modern h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: var(--accent);
+}
+
+.controls-modern .slider-group {
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.controls-modern label {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.controls-modern input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  margin-bottom: 0.7rem;
+  transition: accent-color var(--transition);
+}
+
+.controls-modern button {
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.7rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(79, 209, 197, 0.08);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.controls-modern button:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(49, 151, 149, 0.13);
+}
+
+/* Animations for item addition/removal */
+@keyframes itemPopIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.catalog-modern li, .catalog-modern .wishlist-section li {
+  animation: itemPopIn 0.4s;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .room-designer-root {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sidebar-modern, .controls-modern {
+    margin: 1rem auto;
+    width: 95vw;
+    min-width: unset;
+    border-radius: 16px;
+  }
+  .room-canvas-modern {
+    padding: 1.2rem 0.5rem;
+  }
+  .canvas-card {
+    width: 98vw;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .canvas-card, .catalog-modern, .controls-modern, .sidebar-modern {
+    width: 99vw;
+    padding: 0.7rem;
+    border-radius: 12px;
+  }
+  .room-canvas-modern {
+    padding: 0.5rem 0.2rem;
+  }
+} 
