@@ -18,7 +18,6 @@ const ProductDetailPage = () => {
       </div>
     );
   }
-
   const handleAddToWishlist = async () => {
     if (!user) {
       navigate('/login');

@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './RoomDesignerModern.css';
 import CanvasEditor from './CanvasEditor';
 import { v4 as uuidv4 } from 'uuid';
-
 const CATEGORIES = [
   {
     name: 'Furniture',

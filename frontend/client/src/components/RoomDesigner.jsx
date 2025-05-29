@@ -13,7 +13,6 @@ const RoomDesigner = () => {
   const [isSaving, setIsSaving] = useState(false);
   const stageRef = useRef();
   const [loadedImages, setLoadedImages] = useState({});
-
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
