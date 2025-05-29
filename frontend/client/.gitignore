@@ -25,7 +25,7 @@ dist-ssr
 
 
 
-
+.env
 git checkout -b newbranch
 git add .
 git commit -m "message"

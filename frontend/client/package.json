@@ -11,11 +11,8 @@
   },
   "dependencies": {
     "@fontsource/poppins": "^5.2.5",
-    "axios": "^1.9.0",
-    "cloudinary-react": "^1.8.1",
-    "framer-motion": "^12.11.4",
-    "immer": "^10.1.1",
-    "konva": "^9.3.20",
+    "axios": "^1.8.4",
+    "framer-motion": "^12.7.4",
     "lucide-react": "^0.330.0",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",

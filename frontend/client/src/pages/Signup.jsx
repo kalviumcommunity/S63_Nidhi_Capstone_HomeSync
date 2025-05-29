@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import GoogleSignIn from '../components/GoogleSignIn';
 import '../styles/Signup.css';
 
 const Signup = () => {
@@ -192,25 +193,19 @@ const Signup = () => {
             </div>
 
             <div className="actions-container">
-              <button 
-                type="button"
-                className="google-button"
-              >
-                Sign up with google
+              <button type="submit" className="submit-button">
+                Sign Up
               </button>
-
-              <button
-                type="submit"
-                className="submit-button"
-              >
-                Sign in
-              </button>
-
-              <div className="login-link">
-                <span>
-                  Already a user? <Link to="/login">Login</Link>
-                </span>
+              
+              <div className="divider">
+                <span>OR</span>
               </div>
+
+              <GoogleSignIn />
+            </div>
+
+            <div className="login-link">
+              Already have an account? <Link to="/login">Login</Link>
             </div>
           </form>
         </div>
