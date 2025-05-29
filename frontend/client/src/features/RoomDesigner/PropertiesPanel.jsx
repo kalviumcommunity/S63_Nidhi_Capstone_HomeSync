@@ -7,7 +7,6 @@ const PropertiesPanel = ({ selectedItem, updateCanvasState, allItems }) => {
   const [rotation, setRotation] = useState('');
   const [x, setX] = useState('');
   const [y, setY] = useState('');
-
   useEffect(() => {
     if (selectedItem) {
       setWidth(selectedItem.width?.toString() || '');

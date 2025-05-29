@@ -13,7 +13,6 @@
   --muted: #a0aec0;
   --transition: 0.25s cubic-bezier(.4,0,.2,1);
 }
-
 body, html {
   font-family: 'Poppins', sans-serif;
   background: var(--primary-bg);

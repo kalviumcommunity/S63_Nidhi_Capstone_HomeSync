@@ -6,7 +6,6 @@ import SidebarCatalog from './SidebarCatalog';
 import PropertiesPanel from './PropertiesPanel';
 import TopBarControls from './TopBarControls';
 import './RoomDesigner.css';
-
 // History Reducer
 const historyReducer = produce((draft, action) => {
   switch (action.type) {

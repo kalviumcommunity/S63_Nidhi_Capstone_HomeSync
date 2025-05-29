@@ -13,7 +13,6 @@ const DraggableItem = ({ item, isSelected, onSelect, onChange }) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
-
   return (
     <>
       <KonvaImage

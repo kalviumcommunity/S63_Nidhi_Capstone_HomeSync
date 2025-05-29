@@ -21,7 +21,6 @@ const ImageUploader = ({ onImageUpload }) => {
       setUploadError('File size should be less than 5MB');
       return;
     }
-
     setIsUploading(true);
     setUploadError(null);
     setUploadProgress(0);
@@ -51,7 +50,6 @@ const ImageUploader = ({ onImageUpload }) => {
         };
         img.src = e.target.result;
       };
-
       reader.onerror = () => {
         setUploadError('Error reading file');
         setIsUploading(false);

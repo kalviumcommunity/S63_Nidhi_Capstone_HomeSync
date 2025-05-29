@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 
 const SidebarCatalog = () => {
   const [wishlist, setWishlist] = useState([]);
-
   const catalogItems = [
     { 
       id: 'chair', 

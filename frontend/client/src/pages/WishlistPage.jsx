@@ -13,7 +13,6 @@ const WishlistPage = () => {
       navigate('/login');
       return;
     }
-
     const fetchWishlist = async () => {
       try {
         const response = await fetch('/api/wishlist', {

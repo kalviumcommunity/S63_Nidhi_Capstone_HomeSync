@@ -14,7 +14,6 @@ const RoomCanvas = React.forwardRef(({
 }, ref) => {
   const [selectedId, setSelectedId] = useState(null);
   const [bgImage] = useImage(roomImage?.src || '', 'anonymous');
-
   const handleSelect = useCallback((id) => {
     setSelectedId(id);
     onItemSelect(id);
