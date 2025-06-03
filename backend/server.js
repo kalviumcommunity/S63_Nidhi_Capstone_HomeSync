@@ -10,8 +10,9 @@ const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/uploadRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
 
-
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -44,10 +45,11 @@ mongoose.connect(MONGODB_URI, {
   });
 
 // Routes
-// app.use('/api/items', itemRoutes);
+app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
@@ -68,3 +70,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+// Export app for testing
+module.exports = app;

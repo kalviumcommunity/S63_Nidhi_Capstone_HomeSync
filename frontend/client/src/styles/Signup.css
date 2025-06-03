@@ -195,3 +195,35 @@
   width: 100% !important;
   height: 40px !important;
 }
+
+/* Custom Google Sign In Button */
+.google-signin-button {
+  width: 100%;
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 2px solid #e2e8f0;
+  padding: 0.8rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin: 1rem 0;
+}
+
+.google-signin-button:hover {
+  background-color: #f8fafc;
+  border-color: #0ea5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
