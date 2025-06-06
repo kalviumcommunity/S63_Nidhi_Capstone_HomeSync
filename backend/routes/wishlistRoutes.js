@@ -25,6 +25,16 @@ router.post('/', auth, async (req, res) => {
     });
 
     const savedItem = await wishlistItem.save();
+    
+    // Emit WebSocket event for real-time updates
+    if (req.io) {
+      req.io.emit('wishlist:updated', {
+        action: 'add',
+        item: savedItem,
+        userId: req.user._id
+      });
+    }
+    
     res.status(201).json(savedItem);
   } catch (error) {
     if (error.code === 11000) {
@@ -47,10 +57,19 @@ router.delete('/:productId', auth, async (req, res) => {
       return res.status(404).json({ message: 'Item not found in wishlist' });
     }
     
+    // Emit WebSocket event for real-time updates
+    if (req.io) {
+      req.io.emit('wishlist:updated', {
+        action: 'remove',
+        item: result,
+        userId: req.user._id
+      });
+    }
+    
     res.json({ message: 'Item removed from wishlist' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-module.exports = router; 
+module.exports = router;
