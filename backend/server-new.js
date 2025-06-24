@@ -25,7 +25,8 @@ const io = initializeSocket(server);
 
 // CORS configuration
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5000'],
+  origin: ['http://localhost:5173', 'http://localhost:5000', 'https://capshomesync.netlify.app'],
+
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
@@ -81,7 +82,7 @@ app.use((err, req, res, next) => {
 const PORT = 5000; // Explicitly set to 5001
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🔌 WebSocket server initialized`);
+  console.log(`🔌 WebSocket server initialized`); 
 });
 
 // Export app for testing
