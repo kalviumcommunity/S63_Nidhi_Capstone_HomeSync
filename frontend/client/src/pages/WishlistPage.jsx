@@ -15,7 +15,8 @@ const WishlistPage = () => {
     }
     const fetchWishlist = async () => {
       try {
-        const response = await fetch('/api/wishlist', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/wishlist`, {
+
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -37,7 +38,8 @@ const WishlistPage = () => {
 
   const handleRemoveFromWishlist = async (productId) => {
     try {
-      const response = await fetch(`/api/wishlist/${productId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/wishlist/${productId}`, {
+
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

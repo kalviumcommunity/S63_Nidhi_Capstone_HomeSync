@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001',
+  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000', // fallback for local
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Add a request interceptor to include the token from localStorage
+// Request Interceptor: Add token to header
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -17,17 +17,14 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle token expiration
+// Response Interceptor: Auto logout on 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear local storage and redirect to login
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
@@ -36,4 +33,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api; 
+export default api;
