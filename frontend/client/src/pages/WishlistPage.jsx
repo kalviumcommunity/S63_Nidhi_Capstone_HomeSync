@@ -1,79 +1,114 @@
-import React from 'react';
-import { useWishlist } from '../context/WishlistContext';
-import Navbar from '../components/Navbar';
-import { Trash2, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const WishlistPage = () => {
-  const { wishlist, removeFromWishlist } = useWishlist();
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    const fetchWishlist = async () => {
+      try {
+        const response = await fetch('/api/wishlist', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setWishlistItems(data);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWishlist();
+  }, [user, navigate]);
+
+  const handleRemoveFromWishlist = async (productId) => {
+    try {
+      const response = await fetch(`/api/wishlist/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (response.ok) {
+        setWishlistItems(items => items.filter(item => item.productId !== productId));
+      }
+    } catch (error) {
+      console.error('Error removing from wishlist:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
+  if (wishlistItems.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Wishlist</h1>
+          <p className="text-gray-600">Your wishlist is empty</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <Navbar />
-      <div className="container mx-auto px-4 py-8" style={{ minHeight: '100vh', marginTop: '80px' }}>
-        <h1 className="text-3xl font-bold mb-8 text-gray-800">My Wishlist</h1>
-        {wishlist.length === 0 ? (
-          <div className="text-center py-20 bg-gray-50 rounded-lg">
-            <p className="text-gray-500 text-lg">Your wishlist is empty.</p>
-            <p className="mt-2 text-gray-400">Add items from the catalog to see them here.</p>
-            <Link to="/room-designer">
-                <button className="mt-6 bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 transition-colors">
-                    Start Designing
-                </button>
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {wishlist.map((item) => {
-              // Support both backend and frontend item shapes
-              const product = item.productData || item;
-              let image = product.image || item.image;
-              // If image is a relative path and does not start with '/', add a leading slash
-              if (image && !image.startsWith('/') && !image.startsWith('http')) {
-                image = '/' + image;
-              }
-              const name = product.name || item.name;
-              const price = product.price || item.price;
-              const link = product.link || product.buyLink || item.link || item.buyLink || '#';
-              return (
-                <div
-                  key={item.productId || item.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 group"
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Your Wishlist</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {wishlistItems.map((item) => (
+          <div key={item.productId} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img
+              src={item.productData.image}
+              alt={item.productData.name}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                {item.productData.name}
+              </h2>
+              <p className="text-gray-600 mb-2">${item.productData.price.toFixed(2)}</p>
+              <p className="text-gray-600 mb-4">Brand: {item.productData.brand}</p>
+              
+              <div className="space-y-2">
+                <button
+                  onClick={() => window.open(item.productData.link, '_blank')}
+                  className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
-                  <img
-                    src={image}
-                    alt={name}
-                    className="w-full h-48 object-contain p-4 bg-gray-50"
-                    onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150?text=No+Image'; }}
-                  />
-                  <div className="p-4">
-                    <h2 className="text-lg font-semibold text-gray-900 truncate">{name}</h2>
-                    <p className="text-gray-600 mt-1 font-bold text-lg">{typeof price === 'number' ? `₹${price.toLocaleString()}` : price}</p>
-                    <div className="mt-4 flex justify-between items-center">
-                      <button
-                        onClick={() => window.open(link, '_blank', 'noopener,noreferrer')}
-                        className="flex items-center gap-2 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                      >
-                        <ExternalLink size={16} />
-                        Buy Now
-                      </button>
-                      <button
-                        onClick={() => removeFromWishlist(item.productId || item.id)}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-100 rounded-full transition-colors"
-                        aria-label="Remove from wishlist"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  Buy Now
+                </button>
+                <button
+                  onClick={() => handleRemoveFromWishlist(item.productId)}
+                  className="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                >
+                  Remove from Wishlist
+                </button>
+              </div>
+            </div>
           </div>
-        )}
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
-export default WishlistPage; 
+export default WishlistPage;

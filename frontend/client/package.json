@@ -23,6 +23,7 @@
     "react-konva": "^18.2.10",
     "react-moveable": "^0.56.0",
     "react-router-dom": "^6.22.1",
+    "socket.io-client": "^4.7.2",
     "use-image": "^1.1.1",
     "uuid": "^11.1.0"
   },
