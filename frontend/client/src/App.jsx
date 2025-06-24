@@ -35,7 +35,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/product/:productId" element={<ProductDetailPage />} />
+          
           <Route path="/home" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/editor" element={<Editor />} />
