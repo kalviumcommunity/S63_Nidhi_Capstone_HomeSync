@@ -9,7 +9,7 @@ const connectedUsers = new Map();
 function initializeSocket(server) {
   const io = socketIo(server, {
     cors: {
-      origin: ['http://localhost:5173', 'http://localhost:3000'], // Frontend URLs
+      origin: ['http://localhost:5173', 'http://localhost:5000'], // Frontend URLs
       methods: ['GET', 'POST'],
       credentials: true
     }
