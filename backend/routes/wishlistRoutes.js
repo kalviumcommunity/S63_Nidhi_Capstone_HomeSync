@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 // Get user's wishlist
 router.get('/', auth, async (req, res) => {
   try {
-    const wishlist = await Wishlist.find({ userId: req.user._id });
+    const wishlist = await Wishlist.find({ userId: req.user.userId });
     res.json(wishlist);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -19,7 +19,7 @@ router.post('/', auth, async (req, res) => {
     const { productId, productData } = req.body;
     
     const wishlistItem = new Wishlist({
-      userId: req.user._id,
+      userId: req.user.userId,
       productId,
       productData
     });
@@ -39,7 +39,7 @@ router.post('/', auth, async (req, res) => {
 router.delete('/:productId', auth, async (req, res) => {
   try {
     const result = await Wishlist.findOneAndDelete({
-      userId: req.user._id,
+      userId: req.user.userId,
       productId: req.params.productId
     });
     

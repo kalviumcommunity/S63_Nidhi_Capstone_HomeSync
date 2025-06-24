@@ -16,7 +16,13 @@ export const AuthProvider = ({ children }) => {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(res => res.json())
+      .then(async res => {
+        const contentType = res.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid response from server');
+        }
+        return res.json();
+      })
       .then(data => {
         if (data.user) {
           setUser(data.user);

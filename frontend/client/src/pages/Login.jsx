@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
+import GoogleSignIn from '../components/GoogleSignIn';
 import '../styles/Login.css';
 // import logo from '../assets/logo.png'; // Use your logo path here
 

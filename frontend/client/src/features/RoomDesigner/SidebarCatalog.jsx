@@ -1,176 +1,131 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useDrag } from 'react-dnd';
+import { products } from '../../data/dummyProducts';
+import { useWishlist } from '../../context/WishlistContext';
+import { Heart } from 'lucide-react';
 
-const SidebarCatalog = () => {
-  const [wishlist, setWishlist] = useState([]);
-  const catalogItems = [
-    { 
-      id: 'chair', 
-      name: 'Chair', 
-      type: 'image', 
-      src: '/assets/furniture/chair-1.png', 
-      defaultWidth: 80, 
-      defaultHeight: 100,
-      productUrl: 'https://example.com/chair',
-      price: 199.99
-    },
-    { 
-      id: 'table', 
-      name: 'Table', 
-      type: 'image', 
-      src: '/assets/furniture/table-1.png', 
-      defaultWidth: 150, 
-      defaultHeight: 100,
-      productUrl: 'https://example.com/table',
-      price: 299.99
-    },
-    { 
-      id: 'lamp', 
-      name: 'Lamp', 
-      type: 'image', 
-      src: '/assets/furniture/lamp-1.png', 
-      defaultWidth: 60, 
-      defaultHeight: 80,
-      productUrl: 'https://example.com/lamp',
-      price: 49.99
-    },
-    { 
-      id: 'sofa', 
-      name: 'Sofa', 
-      type: 'image', 
-      src: '/assets/furniture/sofa-1.png', 
-      defaultWidth: 200, 
-      defaultHeight: 120,
-      productUrl: 'https://example.com/sofa',
-      price: 899.99
-    },
-  ];
+const ProductDetailsModal = ({ product, onClose }) => {
+  if (!product) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-80 relative">
+        <button onClick={onClose} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
+        <img src={product.image} alt={product.name} className="w-32 h-32 object-contain mx-auto mb-4" />
+        <h2 className="text-lg font-bold text-center mb-2">{product.name}</h2>
+        <p className="text-center text-indigo-600 font-semibold mb-2">{product.price}</p>
+        <p className="text-center text-gray-500 mb-2">This is a beautiful product that will enhance your room. (Sample description)</p>
+        {product.buyLink && product.buyLink !== '#' && (
+          <a href={product.buyLink} target="_blank" rel="noopener noreferrer" className="block text-center bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition-colors mb-2">Buy Now</a>
+        )}
+      </div>
+    </div>
+  );
+};
 
-  const handleDragStart = (e, item) => {
-    // We'll use this to pass item data to the canvas on drop
-    e.dataTransfer.setData('application/json', JSON.stringify(item));
-  };
+const DraggableProduct = ({ product, onViewDetails }) => {
+  const { addToWishlist, removeFromWishlist, isItemInWishlist } = useWishlist();
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'product',
+    item: { id: product.id, src: product.image, product: product },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
 
-  const toggleWishlist = (item) => {
-    setWishlist(prev => {
-      const isInWishlist = prev.some(wishlistItem => wishlistItem.id === item.id);
-      if (isInWishlist) {
-        return prev.filter(wishlistItem => wishlistItem.id !== item.id);
-      } else {
-        return [...prev, item];
-      }
-    });
-  };
-
-  const isInWishlist = (itemId) => {
-    return wishlist.some(item => item.id === itemId);
+  const handleWishlistToggle = (e) => {
+    e.stopPropagation();
+    if (isItemInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   return (
-    <div className="sidebar-catalog">
-      <h4>Catalog</h4>
-      <ul>
-        {catalogItems.map((item) => (
-          <motion.li
-            key={item.id}
-            draggable
-            onDragStart={(e) => handleDragStart(e, item)}
-            style={{ 
-              cursor: 'grab', 
-              padding: '5px', 
-              border: '1px solid #eee', 
-              marginBottom: '5px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img 
-                src={item.src}
-                alt={item.name} 
-                style={{ width: '40px', height: '40px', marginRight: '10px', verticalAlign: 'middle' }} 
-              />
-              <div>
-                <div>{item.name}</div>
-                <div style={{ fontSize: '0.8em', color: '#666' }}>${item.price}</div>
-              </div>
-            </div>
-            <div>
-              <button 
-                onClick={() => toggleWishlist(item)}
-                style={{ 
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: isInWishlist(item.id) ? '#ff4444' : '#ccc'
-                }}
-              >
-                ♥
-              </button>
-            </div>
-          </motion.li>
-        ))}
-      </ul>
-
-      {wishlist.length > 0 && (
-        <div className="wishlist-section">
-          <h4>Wishlist</h4>
-          <ul>
-            {wishlist.map((item) => (
-              <motion.li
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                style={{ 
-                  padding: '5px', 
-                  border: '1px solid #eee', 
-                  marginBottom: '5px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <img 
-                    src={item.src} 
-                    alt={item.name} 
-                    style={{ width: '30px', height: '30px', marginRight: '10px' }} 
-                  />
-                  <div>
-                    <div>{item.name}</div>
-                    <div style={{ fontSize: '0.8em', color: '#666' }}>${item.price}</div>
-                  </div>
-                </div>
-                <div>
-                  <a 
-                    href={item.productUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ marginRight: '10px' }}
-                  >
-                    View
-                  </a>
-                  <button 
-                    onClick={() => toggleWishlist(item)}
-                    style={{ 
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      color: '#ff4444'
-                    }}
-                  >
-                    ×
-                  </button>
-                </div>
-              </motion.li>
-            ))}
-          </ul>
-        </div>
+    <div
+      ref={drag}
+      className="relative flex flex-col items-center group bg-white rounded shadow p-2 mb-2 w-24"
+      title={product.name + ' - ' + product.price}
+      style={{ opacity: isDragging ? 0.5 : 1, minHeight: 70 }}
+    >
+      <button
+        onClick={handleWishlistToggle}
+        className={`absolute top-1 right-1 p-1 rounded-full z-20 shadow-md border border-white bg-white transition-colors ${
+          isItemInWishlist(product.id) ? 'text-red-500 bg-red-100' : 'text-gray-400'
+        } hover:text-red-500`}
+        aria-label={isItemInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+        style={{ fontSize: 14 }}
+        title={isItemInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+      >
+        <Heart size={14} fill={isItemInWishlist(product.id) ? 'currentColor' : 'none'} />
+      </button>
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-10 h-10 object-contain rounded hover:scale-110 transition-transform mb-1"
+        draggable={false}
+      />
+      <span className="text-xs font-semibold text-gray-700 mb-1">{product.price}</span>
+      {product.buyLink && product.buyLink !== '#' && (
+        <button
+          onClick={(e) => { e.stopPropagation(); window.open(product.buyLink, '_blank', 'noopener,noreferrer'); }}
+          className="w-full bg-indigo-600 text-white text-xs py-1 rounded hover:bg-indigo-700 transition-colors mb-1 mt-1"
+        >
+          Buy Now
+        </button>
       )}
+      <button
+        onClick={(e) => { e.stopPropagation(); onViewDetails(product); }}
+        className="text-xs text-indigo-600 hover:underline focus:outline-none"
+      >
+        View Details
+      </button>
+    </div>
+  );
+};
+
+const SidebarCatalog = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [modalProduct, setModalProduct] = useState(null);
+  const categories = ['All', 'Furniture', 'WallDecor', 'AestheticElements'];
+
+  const filteredProducts = selectedCategory === 'All'
+    ? products
+    : products.filter((p) => p.category === selectedCategory);
+
+  return (
+    <div style={{
+      width: '100%',
+      minWidth: 0,
+      height: '100%',
+      background: '#f9fafb',
+      overflowY: 'auto',
+      borderRight: 'none',
+      boxShadow: 'none',
+      padding: '4px'
+    }}>
+      <div className="mb-1">
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="w-full p-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs"
+        >
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat === 'AestheticElements' ? 'Decor & Accents' : cat.replace(/([A-Z])/g, ' $1').trim()}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex flex-col gap-1 items-center">
+        {filteredProducts.map((product) => (
+          <DraggableProduct key={product.id} product={product} onViewDetails={setModalProduct} />
+        ))}
+        {filteredProducts.length === 0 && (
+          <p className="text-center text-gray-500 mt-1 text-xs">No items in this category.</p>
+        )}
+      </div>
+      <ProductDetailsModal product={modalProduct} onClose={() => setModalProduct(null)} />
     </div>
   );
 };
