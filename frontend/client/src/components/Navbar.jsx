@@ -5,7 +5,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { Heart, User, LogOut } from 'lucide-react';
 import '../styles/Navbar.css';
 import logo from '../assets/logo.png';
-import { useAuth } from '../context/AuthContext';
+
 import NotificationCenter from './NotificationCenter';
 
 const Navbar = () => {
