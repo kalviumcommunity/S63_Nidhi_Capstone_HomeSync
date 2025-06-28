@@ -19,10 +19,16 @@ const Navbar = () => {
         <div className="nav-links">
           <div className="nav-menu">
             <div className="nav-item">
-              <Link to="/room-designer" className="nav-link">Design</Link>
+              <Link to="/room-designer" className="nav-link design-nav-link">Design</Link>
             </div>
             <div className="nav-item">
-              <Link to="/about" className="nav-link">About</Link>
+              <Link to="/wishlist" className="nav-link wishlist-nav-link">
+                <Heart size={20} className="inline mr-1" />
+                Wishlist
+              </Link>
+            </div>
+            <div className="nav-item">
+              <Link to="/about" className="nav-link about-nav-link">About</Link>
             </div>
           </div>
         </div>

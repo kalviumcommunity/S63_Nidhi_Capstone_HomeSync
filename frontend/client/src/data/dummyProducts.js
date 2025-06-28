@@ -1,8 +1,8 @@
 export const products = [
   // Furniture
-  { id: 'furn-1', name: 'Office Desk', category: 'Furniture', image: '/assets/furniture/office_Desk.png', price: '₹12,000', buyLink: '#' },
-  { id: 'furn-2', name: 'Relaxing Chair', category: 'Furniture', image: '/assets/furniture/relaxing_chair.png', price: '₹7,500', buyLink: '#' },
-  { id: 'furn-3', name: 'Table & Chair Set', category: 'Furniture', image: '/assets/furniture/table-chair-set.png', price: '₹15,000', buyLink: '#' },
+  { id: 'furn-1', name: 'Office Desk', category: 'Furniture', image: '/assets/furniture/office_Desk.png', price: '₹12,000', buyLink: 'https://amzn.in/d/igwPm38' },
+  { id: 'furn-2', name: 'Relaxing Chair', category: 'Furniture', image: '/assets/furniture/relaxing_chair.png', price: '₹7,500', buyLink: 'https://amzn.in/d/dt0qhmM' },
+  { id: 'furn-3', name: 'Table & Chair Set', category: 'Furniture', image: '/assets/furniture/table-chair-set.png', price: '₹15,000', buyLink: 'https://amzn.in/d/9kgho6m' },
   { id: 'furn-4', name: 'Sofa', category: 'Furniture', image: '/assets/furniture/sofa-1.png', price: '₹25,000', buyLink: '#' },
   { id: 'furn-5', name: 'Coffee Table', category: 'Furniture', image: '/assets/furniture/table-1.png', price: '₹5,000', buyLink: 'https://dl.flipkart.com/s/Z7ZXwSuuuN' },
   { id: 'furn-6', name: 'Wooden Chair', category: 'Furniture', image: '/assets/furniture/chair-1.png', price: '₹3,000', buyLink: 'https://dl.flipkart.com/s/Z7JI9euuuN' },

@@ -24,6 +24,7 @@ export const WishlistProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get('/api/wishlist');
+      console.log('Fetched wishlist data:', response.data);
       setWishlistItems(response.data);
     } catch (error) {
       console.error('Error fetching wishlist:', error);
@@ -47,17 +48,20 @@ export const WishlistProvider = ({ children }) => {
 
       const productData = {
         name: item.name,
-        image: item.src,
+        image: item.image || item.src,
         price, // now a number
         brand: item.brand || 'HomeSync',
         link: item.productUrl || item.productLink || item.buyLink
       };
+
+      console.log('Adding to wishlist:', { productId: item.id, productData });
 
       const response = await api.post('/api/wishlist', {
         productId: item.id,
         productData
       });
 
+      console.log('Wishlist response:', response.data);
       setWishlistItems(prev => [...prev, response.data]);
       return true;
     } catch (error) {
