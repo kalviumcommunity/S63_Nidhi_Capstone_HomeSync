@@ -44,8 +44,8 @@ const About = () => {
           </h2>
           <p className="card-description">
             Built with modern web technologies, HomeSync offers a seamless experience across all
-            devices. Our platform uses advanced 3D rendering and real-time previews to help you
-            visualize your designs.
+            devices. Our platform provides real-time previews and interactive customization tools
+            to help you bring your designs to life.
           </p>
         </div>
       </div>
@@ -54,10 +54,9 @@ const About = () => {
         <h2 className="section-title">Key Features</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <h3 className="feature-title">Real-time 3D Preview</h3>
+            <h3 className="feature-title">Live Design Preview</h3>
             <p className="feature-description">
-              See your designs come to life with our advanced 3D rendering technology.
-              Make changes and see instant results.
+              See your designs update in real-time as you make changes—no guessing, no surprises.
             </p>
           </div>
           <div className="feature-card">
@@ -67,9 +66,9 @@ const About = () => {
             </p>
           </div>
           <div className="feature-card">
-            <h3 className="feature-title">Virtual Room Tours</h3>
+            <h3 className="feature-title">Interactive Layout Editor</h3>
             <p className="feature-description">
-              Take a virtual walkthrough of your designed space before making any changes.
+              Customize and experiment with layouts using an easy-to-use drag-and-drop interface.
             </p>
           </div>
         </div>
