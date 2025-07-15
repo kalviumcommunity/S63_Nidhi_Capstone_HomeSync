@@ -18,10 +18,10 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleClear = field => {
-    setFormData({ ...formData, [field]: '' });
-    setError('');
-  };
+  // const handleClear = field => {
+  //   setFormData({ ...formData, [field]: '' });
+  //   setError('');
+  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -76,15 +76,15 @@ const Login = () => {
                   className="form-input"
                   required
                 />
-                {formData.email && (
-                  <button
-                    type="button"
-                    onClick={() => handleClear('email')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )}
+                {/* {formData.email && (
+                  // <button
+                  //   type="button"
+                  //   onClick={() => handleClear('email')}
+                  //   className="clear-button"
+                  // >
+                  //   ×
+                  // </button>
+                )} */}
               </div>
             </div>
 

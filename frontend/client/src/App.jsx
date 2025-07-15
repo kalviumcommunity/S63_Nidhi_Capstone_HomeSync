@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import RoomDesigner from './features/RoomDesigner/RoomDesigner';
 import WishlistPage from './pages/WishlistPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProfilePage from './pages/ProfilePage';
 import "./App.css";
 
 function App() {
@@ -41,6 +42,14 @@ function App() {
           
           <Route path="/about" element={<About />} />
           <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>

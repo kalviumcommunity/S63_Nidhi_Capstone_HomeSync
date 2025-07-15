@@ -62,12 +62,12 @@ const Signup = () => {
     }
   };
 
-  const clearField = (fieldName) => {
-    setFormData(prev => ({
-      ...prev,
-      [fieldName]: ''
-    }));
-  };
+  // const clearField = (fieldName) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     [fieldName]: ''
+  //   }));
+  // };
 
   return (
     <div className="signup-container">
@@ -91,7 +91,7 @@ const Signup = () => {
                   placeholder="Enter your name"
                   className="form-input"
                 />
-                {formData.username && (
+                {/* {formData.username && (
                   <button
                     type="button"
                     onClick={() => clearField('username')}
@@ -99,7 +99,7 @@ const Signup = () => {
                   >
                     ×
                   </button>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -116,7 +116,7 @@ const Signup = () => {
                   placeholder="Enter your email"
                   className="form-input"
                 />
-                {formData.email && (
+                {/* {formData.email && (
                   <button
                     type="button"
                     onClick={() => clearField('email')}
@@ -124,7 +124,7 @@ const Signup = () => {
                   >
                     ×
                   </button>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -148,7 +148,7 @@ const Signup = () => {
                 >
                   {showPassword ? "👁" : "👁‍🗨"}
                 </button>
-                {formData.password && (
+                {/* {formData.password && (
                   <button
                     type="button"
                     onClick={() => clearField('password')}
@@ -156,7 +156,7 @@ const Signup = () => {
                   >
                     ×
                   </button>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -180,7 +180,7 @@ const Signup = () => {
                 >
                   {showConfirmPassword ? "👁" : "👁‍🗨"}
                 </button>
-                {formData.confirmPassword && (
+                {/* {formData.confirmPassword && (
                   <button
                     type="button"
                     onClick={() => clearField('confirmPassword')}
@@ -188,7 +188,7 @@ const Signup = () => {
                   >
                     ×
                   </button>
-                )}
+                )} */}
               </div>
             </div>
 

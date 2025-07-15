@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 import { Heart, User, LogOut } from 'lucide-react';
@@ -9,6 +9,8 @@ import logo from '../assets/logo.png';
 import NotificationCenter from './NotificationCenter';
 
 const Navbar = () => {
+  const location = useLocation();
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -29,6 +31,11 @@ const Navbar = () => {
             </div>
             <div className="nav-item">
               <Link to="/about" className="nav-link about-nav-link">About</Link>
+            </div>
+            <div className="nav-item">
+              <Link to="/profile" className={`nav-link${location.pathname === '/profile' ? ' active' : ''} profile-link`}>
+                <span role="img" aria-label="profile" className="nav-icon">👤</span> Profile
+              </Link>
             </div>
           </div>
         </div>
