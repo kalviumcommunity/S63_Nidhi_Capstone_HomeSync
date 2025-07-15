@@ -20,7 +20,7 @@ router.get('/verify', async (req, res) => {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'eec5374f63845c06b82e5b68b2830242ad47fdfe0a12dea57b4d0d661d8b6706');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
     const user = await User.findById(decoded.userId || decoded.userId || decoded.id).select('-password');
     
     if (!user) {
