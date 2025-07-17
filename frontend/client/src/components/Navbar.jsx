@@ -15,7 +15,9 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="logo-container">
+          <Link to="/">
           <img src={logo} alt="HomeSync Logo" className="logo" />
+          </Link>
         </div>
         
         <div className="nav-links">
@@ -33,9 +35,10 @@ const Navbar = () => {
               <Link to="/about" className="nav-link about-nav-link">About</Link>
             </div>
             <div className="nav-item">
-              <Link to="/profile" className={`nav-link${location.pathname === '/profile' ? ' active' : ''} profile-link`}>
-                <span role="img" aria-label="profile" className="nav-icon">👤</span> Profile
+             <Link to="/profile" className="nav-link profile-nav-link">
+              <i className="fas fa-user"></i> Profile
               </Link>
+
             </div>
           </div>
         </div>
