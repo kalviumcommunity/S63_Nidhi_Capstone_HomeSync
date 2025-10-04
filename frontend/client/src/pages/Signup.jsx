@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import GoogleSignIn from '../components/GoogleSignIn';
 import '../styles/Signup.css';
 
 const Signup = () => {
@@ -16,12 +15,58 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setError(''); // Clear errors when user types
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Real-time validation
+    const newValidationErrors = { ...validationErrors };
+    
+    if (name === 'username') {
+      if (value.length < 3) {
+        newValidationErrors.username = 'Username must be at least 3 characters';
+      } else {
+        delete newValidationErrors.username;
+      }
+    }
+    
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value && !emailRegex.test(value)) {
+        newValidationErrors.email = 'Please enter a valid email address';
+      } else {
+        delete newValidationErrors.email;
+      }
+    }
+    
+    if (name === 'password') {
+      if (value.length < 6) {
+        newValidationErrors.password = 'Password must be at least 6 characters';
+      } else {
+        delete newValidationErrors.password;
+      }
+      
+      // Also check confirm password if it exists
+      if (formData.confirmPassword && value !== formData.confirmPassword) {
+        newValidationErrors.confirmPassword = 'Passwords do not match';
+      } else if (formData.confirmPassword) {
+        delete newValidationErrors.confirmPassword;
+      }
+    }
+    
+    if (name === 'confirmPassword') {
+      if (value && value !== formData.password) {
+        newValidationErrors.confirmPassword = 'Passwords do not match';
+      } else {
+        delete newValidationErrors.confirmPassword;
+      }
+    }
+    
+    setValidationErrors(newValidationErrors);
   };
 
   const togglePasswordVisibility = (field) => {
@@ -32,20 +77,28 @@ const Signup = () => {
     }
   };
 
+  const isValidForm = () => {
+    return formData.username && formData.email && formData.password && 
+           formData.password === formData.confirmPassword &&
+           Object.keys(validationErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+    // Client-side validation
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+      setError('Please fill in all fields');
       return;
     }
 
-    // Validate password length
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long!');
+    if (!isValidForm()) {
+      setError('Please fix validation errors');
       return;
     }
+
+    setLoading(true);
+    setError('');
 
     try {
       const response = await api.post('/api/auth/signup', {
@@ -59,6 +112,8 @@ const Signup = () => {
       navigate('/room-designer');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred during signup');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,18 +144,13 @@ const Signup = () => {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Enter your name"
-                  className="form-input"
+                  className={`form-input ${validationErrors.username ? 'error' : ''}`}
+                  disabled={loading}
                 />
-                {/* {formData.username && (
-                  <button
-                    type="button"
-                    onClick={() => clearField('username')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )} */}
               </div>
+              {validationErrors.username && (
+                <div className="validation-error">{validationErrors.username}</div>
+              )}
             </div>
 
             <div className="form-group">
@@ -114,18 +164,13 @@ const Signup = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your email"
-                  className="form-input"
+                  className={`form-input ${validationErrors.email ? 'error' : ''}`}
+                  disabled={loading}
                 />
-                {/* {formData.email && (
-                  <button
-                    type="button"
-                    onClick={() => clearField('email')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )} */}
               </div>
+              {validationErrors.email && (
+                <div className="validation-error">{validationErrors.email}</div>
+              )}
             </div>
 
             <div className="form-group">
@@ -139,25 +184,21 @@ const Signup = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="form-input"
+                  className={`form-input ${validationErrors.password ? 'error' : ''}`}
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility('password')}
                   className="password-toggle"
+                  disabled={loading}
                 >
                   {showPassword ? "👁" : "👁‍🗨"}
                 </button>
-                {/* {formData.password && (
-                  <button
-                    type="button"
-                    onClick={() => clearField('password')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )} */}
               </div>
+              {validationErrors.password && (
+                <div className="validation-error">{validationErrors.password}</div>
+              )}
             </div>
 
             <div className="form-group">
@@ -170,38 +211,47 @@ const Signup = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="form-input"
+                  placeholder="Confirm your password"
+                  className={`form-input ${validationErrors.confirmPassword ? 'error' : ''}`}
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility('confirm')}
                   className="password-toggle"
+                  disabled={loading}
                 >
                   {showConfirmPassword ? "👁" : "👁‍🗨"}
                 </button>
-                {/* {formData.confirmPassword && (
-                  <button
-                    type="button"
-                    onClick={() => clearField('confirmPassword')}
-                    className="clear-button"
-                  >
-                    ×
-                  </button>
-                )} */}
               </div>
+              {validationErrors.confirmPassword && (
+                <div className="validation-error">{validationErrors.confirmPassword}</div>
+              )}
             </div>
 
             <div className="actions-container">
-              <button type="submit" className="submit-button">
-                Sign Up
+              <button 
+                type="submit" 
+                className="submit-button"
+                disabled={loading || !isValidForm()}
+              >
+                {loading ? (
+                  <>
+                    <div style={{ 
+                      width: '16px', 
+                      height: '16px', 
+                      border: '2px solid #ffffff', 
+                      borderTop: '2px solid transparent',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite',
+                      display: 'inline-block',
+                      marginRight: '8px'
+                    }}></div>
+                    Creating account...
+                  </>
+                ) : 'Sign Up'}
               </button>
               
-              <div className="divider">
-                <span>OR</span>
-              </div>
-
-              <GoogleSignIn />
             </div>
 
             <div className="login-link">

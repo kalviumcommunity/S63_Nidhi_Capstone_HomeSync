@@ -15,6 +15,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        {/* Add React.Suspense for lazy loading */}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

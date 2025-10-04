@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useWishlist } from '../context/WishlistContext';
-import { Heart, User, LogOut } from 'lucide-react';
 import '../styles/Navbar.css';
 import logo from '../assets/logo.png';
 
@@ -10,6 +8,10 @@ import NotificationCenter from './NotificationCenter';
 
 const Navbar = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  
+  // Show auth buttons only on homepage
+  const showAuthButtons = location.pathname === '/home' || location.pathname === '/';
 
   return (
     <nav className="navbar">
@@ -26,27 +28,23 @@ const Navbar = () => {
               <Link to="/room-designer" className="nav-link design-nav-link">Design</Link>
             </div>
             <div className="nav-item">
-              <Link to="/wishlist" className="nav-link wishlist-nav-link">
-                <Heart size={20} className="inline mr-1" />
-                Wishlist
-              </Link>
+              <Link to="/wishlist" className="nav-link wishlist-nav-link">Wishlist</Link>
             </div>
             <div className="nav-item">
               <Link to="/about" className="nav-link about-nav-link">About</Link>
             </div>
             <div className="nav-item">
-             <Link to="/profile" className="nav-link profile-nav-link">
-              <i className="fas fa-user"></i> Profile
-              </Link>
-
+              <Link to="/profile" className="nav-link profile-nav-link">Profile</Link>
             </div>
           </div>
         </div>
 
-        <div className="auth-buttons">
-          <Link to="/login" className="auth-button login-button">Login</Link>
-          <Link to="/signup" className="auth-button signup-button">Sign Up</Link>
-        </div>
+        {showAuthButtons && (
+          <div className="auth-buttons">
+            <Link to="/login" className="auth-button login-button">Login</Link>
+            <Link to="/signup" className="auth-button signup-button">Sign Up</Link>
+          </div>
+        )}
       </div>
     </nav>
   );

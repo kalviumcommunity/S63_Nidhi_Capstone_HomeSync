@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+// Create axios instance with optimizations
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000', // fallback for local
+  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
+  },
+  timeout: 10000, // 10 second timeout
+  // Enable response caching
+  cache: {
+    maxAge: 5 * 60 * 1000, // 5 minutes cache
+    exclude: { predicate: request => request.method !== 'GET' }
   }
 });
 

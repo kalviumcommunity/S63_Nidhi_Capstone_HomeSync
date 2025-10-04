@@ -73,12 +73,14 @@
 .login-form-container {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 24px;
-  padding: 2.8rem;
+  padding: 2rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(12px);
   transform: translateY(0);
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .login-form-container:hover {
@@ -87,12 +89,12 @@
 }
 
 .login-header {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   letter-spacing: -0.5px;
 }
@@ -100,7 +102,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .form-group {
@@ -140,6 +142,17 @@
   outline: none;
 }
 
+.form-input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-input:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .clear-button {
   position: absolute;
   right: 40px;
@@ -169,8 +182,8 @@
 .actions-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .submit-button {
@@ -188,9 +201,17 @@
   overflow: hidden;
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15);
+}
+
+.submit-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
 }
 
 .divider {
@@ -220,6 +241,14 @@
   border-radius: 6px;
   font-size: 14px;
   text-align: center;
+}
+
+.validation-error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 4px;
+  font-weight: 500;
 }
 
 .forgot-password {

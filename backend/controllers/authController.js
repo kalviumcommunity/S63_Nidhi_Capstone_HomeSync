@@ -3,18 +3,21 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
   try {
-    console.log('Signup request body:', req.body);
     const { username, email, password } = req.body;
 
-    // Validate required fields
+    // Fast validation
     if (!username || !email || !password) {
-      console.log('Validation failed: Missing fields');
       return res.status(400).json({ message: 'Username, email, and password are required' });
     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-    console.log('Existing user check:', existingUser);
+    // Email format validation (frontend also validates but good security)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    // Check if user already exists - optimize query
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] }).select('_id');
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -25,19 +28,15 @@ const signup = async (req, res) => {
       email,
       password
     });
-    console.log('New user created:', user);
 
     await user.save();
-    console.log('User saved to database');
 
     // Check if JWT_SECRET is defined
     if (!process.env.JWT_SECRET) {
-      console.log('JWT_SECRET is not defined');
-      return res.status(500).json({ message: 'JWT_SECRET environment variable is not defined' });
+      return res.status(500).json({ message: 'Server configuration error' });
     }
 
     // Generate JWT token
-    console.log('Generating JWT token');
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -54,10 +53,12 @@ const signup = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Signup error:', error);
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Signup error:', error);
+    }
     res.status(500).json({ 
-      message: 'Error creating user', 
-      error: process.env.NODE_ENV === 'development' ? error.stack : error.message 
+      message: 'Error creating user'
     });
   }
 };
@@ -66,8 +67,19 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    // Fast validation
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    // Find user by email with optimized query
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -76,6 +88,11 @@ const login = async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Check if JWT_SECRET is defined
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: 'Server configuration error' });
     }
 
     // Generate JWT token
@@ -95,7 +112,11 @@ const login = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in', error: error.message });
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Login error:', error);
+    }
+    res.status(500).json({ message: 'Error logging in' });
   }
 };
 

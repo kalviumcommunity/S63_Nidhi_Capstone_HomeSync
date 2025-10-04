@@ -3,6 +3,7 @@ import { useDrag } from 'react-dnd';
 import { products } from '../../data/dummyProducts';
 import { useWishlist } from '../../context/WishlistContext';
 import { Heart } from 'lucide-react';
+import './SidebarCatalog.css';
 
 const ProductDetailsModal = ({ product, onClose }) => {
   if (!product) return null;
@@ -44,42 +45,53 @@ const DraggableProduct = ({ product, onViewDetails }) => {
   return (
     <div
       ref={drag}
-      className="relative flex flex-col items-center group bg-white rounded shadow p-2 mb-2 w-24"
+      className="product-card"
       title={product.name + ' - ' + product.price}
-      style={{ opacity: isDragging ? 0.5 : 1, minHeight: 70 }}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
     >
+      {/* Wishlist Heart */}
       <button
         onClick={handleWishlistToggle}
-        className={`absolute top-1 right-1 p-1 rounded-full z-20 shadow-md border border-white bg-white transition-colors ${
-          isItemInWishlist(product.id) ? 'text-red-500 bg-red-100' : 'text-gray-400'
-        } hover:text-red-500`}
+        className={`wishlist-heart ${isItemInWishlist(product.id) ? 'active' : ''}`}
         aria-label={isItemInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
-        style={{ fontSize: 14 }}
         title={isItemInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
       >
-        <Heart size={14} fill={isItemInWishlist(product.id) ? 'currentColor' : 'none'} />
+        <Heart size={16} fill={isItemInWishlist(product.id) ? 'currentColor' : 'none'} />
       </button>
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-10 h-10 object-contain rounded hover:scale-110 transition-transform mb-1"
-        draggable={false}
-      />
-      <span className="text-xs font-semibold text-gray-700 mb-1">{product.price}</span>
-      {product.buyLink && product.buyLink !== '#' && (
+
+      {/* Product Image */}
+      <div className="product-image-container">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="product-image"
+          draggable={false}
+        />
+      </div>
+
+      {/* Product Info */}
+      <div className="product-info">
+        <div className="product-name">{product.name}</div>
+        <div className="product-price">{product.price}</div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="product-actions">
+        {product.buyLink && product.buyLink !== '#' && (
+          <button
+            onClick={(e) => { e.stopPropagation(); window.open(product.buyLink, '_blank', 'noopener,noreferrer'); }}
+            className="buy-button"
+          >
+            Buy Now
+          </button>
+        )}
         <button
-          onClick={(e) => { e.stopPropagation(); window.open(product.buyLink, '_blank', 'noopener,noreferrer'); }}
-          className="w-full bg-indigo-600 text-white text-xs py-1 rounded hover:bg-indigo-700 transition-colors mb-1 mt-1"
+          onClick={(e) => { e.stopPropagation(); onViewDetails(product); }}
+          className="details-button"
         >
-          Buy Now
+          View Details
         </button>
-      )}
-      <button
-        onClick={(e) => { e.stopPropagation(); onViewDetails(product); }}
-        className="text-xs text-indigo-600 hover:underline focus:outline-none"
-      >
-        View Details
-      </button>
+      </div>
     </div>
   );
 };
@@ -94,37 +106,39 @@ const SidebarCatalog = () => {
     : products.filter((p) => p.category === selectedCategory);
 
   return (
-    <div style={{
-      width: '100%',
-      minWidth: 0,
-      height: '100%',
-      background: '#f9fafb',
-      overflowY: 'auto',
-      borderRight: 'none',
-      boxShadow: 'none',
-      padding: '4px'
-    }}>
-      <div className="mb-1">
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full p-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs"
-        >
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat === 'AestheticElements' ? 'Decor & Accents' : cat.replace(/([A-Z])/g, ' $1').trim()}
-            </option>
-          ))}
-        </select>
+    <div className="sidebar-catalog">
+      {/* Header */}
+      <div className="sidebar-header">
+        <h3 className="sidebar-title">Furniture Catalog</h3>
+        <div className="category-selector">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="category-dropdown"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat === 'AestheticElements' ? 'Decor & Accents' : cat.replace(/([A-Z])/g, ' $1').trim()}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div className="flex flex-col gap-1 items-center">
+
+      {/* Products List */}
+      <div className="products-container">
         {filteredProducts.map((product) => (
           <DraggableProduct key={product.id} product={product} onViewDetails={setModalProduct} />
         ))}
         {filteredProducts.length === 0 && (
-          <p className="text-center text-gray-500 mt-1 text-xs">No items in this category.</p>
+          <div className="empty-state">
+            <div className="empty-icon">🗃️</div>
+            <p className="empty-text">No items found</p>
+            <p className="empty-subtext">Try selecting a different category</p>
+          </div>
         )}
       </div>
+
       <ProductDetailsModal product={modalProduct} onClose={() => setModalProduct(null)} />
     </div>
   );

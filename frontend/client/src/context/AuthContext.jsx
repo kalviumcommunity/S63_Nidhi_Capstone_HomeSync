@@ -1,65 +1,73 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import api from '../api/axios';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [initializing, setInitializing] = useState(true);
 
-  useEffect(() => {
-    // Check if user is logged in on mount
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Verify token and get user data
-      fetch('/api/auth/verify', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then(async res => {
-        const contentType = res.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Invalid response from server');
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (data.user) {
-          setUser(data.user);
-        }
-      })
-      .catch(err => {
-        console.error('Error verifying token:', err);
-        localStorage.removeItem('token');
-      })
-      .finally(() => {
-        setLoading(false);
+  // Optimized token verification with caching
+  const verifyToken = useCallback(async (token) => {
+    try {
+      const response = await api.get('/api/auth/verify', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-    } else {
-      setLoading(false);
+      
+      if (response.data.user) {
+        setUser(response.data.user);
+        return true;
+      }
+    } catch (error) {
+      console.error('Token verification failed:', error);
+      localStorage.removeItem('token');
+      return false;
     }
+    return false;
   }, []);
 
-  const login = (userData, token) => {
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        // Try to verify token in background
+        await verifyToken(token);
+      }
+      
+      setLoading(false);
+      setInitializing(false);
+    };
+
+    // Don't block render - verify in background
+    initializeAuth();
+  }, [verifyToken]);
+
+  const login = useCallback((userData, token) => {
     setUser(userData);
     localStorage.setItem('token', token);
-  };
+    setLoading(false);
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('token');
-  };
+    setLoading(false);
+  }, []);
 
   const value = {
     user,
     loading,
+    initializing,
     login,
     logout
   };
 
+  // Always render children - don't block on auth verification
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
